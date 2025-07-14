@@ -1,0 +1,219 @@
+{
+  "server": {
+    "name": "mcp-security-server",
+    "version": "1.0.0",
+    "description": "Model Context Protocol server for security analysis with Snyk integration"
+  },
+  "snyk": {
+    "enabled": true,
+    "timeout": 300000,
+    "retries": 3,
+    "severityThreshold": "medium",
+    "outputFormat": "json"
+  },
+  "scanning": {
+    "maxFileSize": "10MB",
+    "maxFilesPerScan": 1000,
+    "excludePatterns": [
+      "node_modules/**",
+      ".git/**",
+      "build/**",
+      "dist/**",
+      "coverage/**",
+      "*.log",
+      "*.tmp"
+    ],
+    "includeExtensions": [
+      ".js",
+      ".ts",
+      ".jsx",
+      ".tsx",
+      ".vue",
+      ".php",
+      ".py",
+      ".java",
+      ".cs",
+      ".go",
+      ".rb"
+    ]
+  },
+  "sbom": {
+    "defaultFormat": "json",
+    "includeDevDependencies": false,
+    "includeLicenses": true,
+    "includeVulnerabilities": true,
+    "cycloneDxVersion": "1.4"
+  },
+  "codeReview": {
+    "rules": {
+      "sqlInjection": {
+        "enabled": true,
+        "severity": "error",
+        "patterns": [
+          "\\$\\{.*\\}",
+          "['\"'].*\\+.*['\"']",
+          "execute\\s*\\(",
+          "query\\s*\\(.*\\+"
+        ]
+      },
+      "xss": {
+        "enabled": true,
+        "severity": "error",
+        "patterns": [
+          "innerHTML\\s*=",
+          "document\\.write\\s*\\(",
+          "eval\\s*\\(",
+          "setTimeout\\s*\\(\\s*['\"][^'\"]*\\+"
+        ]
+      },
+      "commandInjection": {
+        "enabled": true,
+        "severity": "error",
+        "patterns": [
+          "exec\\s*\\(.*\\+",
+          "spawn\\s*\\(.*\\+",
+          "system\\s*\\("
+        ]
+      },
+      "hardcodedSecrets": {
+        "enabled": true,
+        "severity": "error",
+        "patterns": [
+          "password\\s*[:=]\\s*['\"][^'\"]+['\"]",
+          "api[_-]?key\\s*[:=]\\s*['\"][^'\"]+['\"]",
+          "secret\\s*[:=]\\s*['\"][^'\"]+['\"]",
+          "token\\s*[:=]\\s*['\"][^'\"]+['\"]"
+        ]
+      },
+      "weakRandom": {
+        "enabled": true,
+        "severity": "warning",
+        "patterns": [
+          "Math\\.random\\s*\\(",
+          "new Date\\(\\)\\.getTime\\(\\)"
+        ]
+      },
+      "insecureHttp": {
+        "enabled": true,
+        "severity": "warning",
+        "patterns": [
+          "http://[^'\"]+",
+          "secure\\s*:\\s*false"
+        ]
+      },
+      "pathTraversal": {
+        "enabled": true,
+        "severity": "error",
+        "patterns": [
+          "\\.\\./",
+          "path\\.join\\s*\\(.*req\\.",
+          "fs\\.readFile\\s*\\(.*req\\."
+        ]
+      },
+      "insecureCookies": {
+        "enabled": true,
+        "severity": "warning",
+        "patterns": [
+          "httpOnly\\s*:\\s*false",
+          "secure\\s*:\\s*false",
+          "sameSite\\s*:\\s*['\"]?none['\"]?"
+        ]
+      },
+      "unsafeDeserialization": {
+        "enabled": true,
+        "severity": "error",
+        "patterns": [
+          "JSON\\.parse\\s*\\(.*req\\.",
+          "eval\\s*\\(.*JSON",
+          "Function\\s*\\("
+        ]
+      }
+    }
+  },
+  "secrets": {
+    "patterns": {
+      "awsAccessKey": {
+        "regex": "AKIA[0-9A-Z]{16}",
+        "severity": "critical",
+        "description": "AWS Access Key ID"
+      },
+      "awsSecretKey": {
+        "regex": "[A-Za-z0-9/+=]{40}",
+        "severity": "critical",
+        "description": "AWS Secret Access Key"
+      },
+      "githubToken": {
+        "regex": "ghp_[a-zA-Z0-9]{36}",
+        "severity": "high",
+        "description": "GitHub Personal Access Token"
+      },
+      "privateKey": {
+        "regex": "-----BEGIN [A-Z ]+PRIVATE KEY-----",
+        "severity": "critical",
+        "description": "Private Key"
+      },
+      "apiKey": {
+        "regex": "[aA][pP][iI][_]?[kK][eE][yY].*['\"]['\"]([0-9a-zA-Z]+)['\"]['\"]",
+        "severity": "high",
+        "description": "Generic API Key"
+      },
+      "password": {
+        "regex": "[pP][aA][sS][sS][wW][oO][rR][dD].*['\"]['\"]([^'\"]+)['\"]['\"]",
+        "severity": "medium",
+        "description": "Hardcoded Password"
+      }
+    }
+  },
+  "infrastructure": {
+    "docker": {
+      "rules": {
+        "rootUser": {
+          "pattern": "USER\\s+root",
+          "severity": "high",
+          "description": "Container running as root user"
+        },
+        "exposedPorts": {
+          "pattern": "EXPOSE\\s+(22|3389)",
+          "severity": "medium",
+          "description": "Administrative ports exposed"
+        },
+        "insecureProtocol": {
+          "pattern": "http://",
+          "severity": "low",
+          "description": "Insecure HTTP protocol in use"
+        }
+      }
+    },
+    "kubernetes": {
+      "rules": {
+        "privileged": {
+          "pattern": "privileged:\\s*true",
+          "severity": "high",
+          "description": "Privileged container detected"
+        },
+        "hostNetwork": {
+          "pattern": "hostNetwork:\\s*true",
+          "severity": "medium",
+          "description": "Host network access enabled"
+        }
+      }
+    }
+  },
+  "reporting": {
+    "formats": ["json", "sarif", "html", "markdown"],
+    "includeRemediation": true,
+    "includeMetrics": true,
+    "compliance": {
+      "owasp": true,
+      "pci": true,
+      "iso27001": true
+    }
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "file": "./logs/mcp-security-server.log",
+    "maxSize": "10MB",
+    "maxFiles": 5
+  }
+}

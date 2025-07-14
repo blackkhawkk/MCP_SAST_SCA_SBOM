@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "security-analyzer": {
+      "command": "node",
+      "args": ["e:/R&D/juice-shop/mcp-security-server/build/index.js"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

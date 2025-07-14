@@ -1,0 +1,133 @@
+{
+  "bom.json": {
+    "format": "CycloneDX JSON",
+    "version": 1,
+    "components_count": 779,
+    "serial_number": "urn:uuid:c9d32b70-1447-4ab6-a29b-513487102587",
+    "metadata": {
+      "timestamp": "2025-06-16T22:15:33.332Z",
+      "tools": {
+        "components": [
+          {
+            "type": "application",
+            "name": "npm",
+            "version": "10.9.2"
+          },
+          {
+            "type": "application",
+            "name": "cyclonedx-npm",
+            "group": "@cyclonedx",
+            "version": "3.1.0",
+            "author": "Jan Kowalleck",
+            "description": "Create CycloneDX Software Bill of Materials (SBOM) from NPM projects.",
+            "licenses": [
+              {
+                "license": {
+                  "id": "Apache-2.0"
+                }
+              }
+            ],
+            "externalReferences": [
+              {
+                "url": "git+https://github.com/CycloneDX/cyclonedx-node-npm.git",
+                "type": "vcs",
+                "comment": "as detected from PackageJson property \"repository.url\""
+              },
+              {
+                "url": "https://github.com/CycloneDX/cyclonedx-node-npm#readme",
+                "type": "website",
+                "comment": "as detected from PackageJson property \"homepage\""
+              },
+              {
+                "url": "https://github.com/CycloneDX/cyclonedx-node-npm/issues",
+                "type": "issue-tracker",
+                "comment": "as detected from PackageJson property \"bugs.url\""
+              }
+            ]
+          },
+          {
+            "type": "library",
+            "name": "cyclonedx-library",
+            "group": "@cyclonedx",
+            "version": "8.4.0",
+            "author": "Jan Kowalleck",
+            "description": "Core functionality of CycloneDX for JavaScript (Node.js or WebBrowser).",
+            "licenses": [
+              {
+                "license": {
+                  "id": "Apache-2.0"
+                }
+              }
+            ],
+            "externalReferences": [
+              {
+                "url": "git+https://github.com/CycloneDX/cyclonedx-javascript-library.git",
+                "type": "vcs",
+                "comment": "as detected from PackageJson property \"repository.url\""
+              },
+              {
+                "url": "https://github.com/CycloneDX/cyclonedx-javascript-library#readme",
+                "type": "website",
+                "comment": "as detected from PackageJson property \"homepage\""
+              },
+              {
+                "url": "https://github.com/CycloneDX/cyclonedx-javascript-library/issues",
+                "type": "issue-tracker",
+                "comment": "as detected from PackageJson property \"bugs.url\""
+              }
+            ]
+          }
+        ]
+      },
+      "component": {
+        "type": "application",
+        "name": "juice-shop",
+        "version": "18.0.0",
+        "bom-ref": "juice-shop@18.0.0",
+        "author": "Bj\u00f6rn Kimminich",
+        "description": "Probably the most modern and sophisticated insecure web application",
+        "licenses": [
+          {
+            "license": {
+              "id": "MIT",
+              "acknowledgement": "declared"
+            }
+          }
+        ],
+        "purl": "pkg:npm/juice-shop@18.0.0?vcs_url=git%2Bhttps%3A%2F%2Fgithub.com%2Fjuice-shop%2Fjuice-shop.git",
+        "externalReferences": [
+          {
+            "url": "git+https://github.com/juice-shop/juice-shop.git",
+            "type": "vcs",
+            "comment": "as detected from PackageJson property \"repository.url\""
+          },
+          {
+            "url": "https://owasp-juice.shop",
+            "type": "website",
+            "comment": "as detected from PackageJson property \"homepage\""
+          },
+          {
+            "url": "https://github.com/juice-shop/juice-shop/issues",
+            "type": "issue-tracker",
+            "comment": "as detected from PackageJson property \"bugs.url\""
+          }
+        ],
+        "properties": [
+          {
+            "name": "cdx:npm:package:path",
+            "value": ""
+          },
+          {
+            "name": "cdx:npm:package:private",
+            "value": "true"
+          }
+        ]
+      }
+    }
+  },
+  "bom.xml": {
+    "format": "CycloneDX XML",
+    "file_size": 2071422,
+    "exists": true
+  }
+}
